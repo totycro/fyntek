@@ -1,11 +1,12 @@
 module Main where
 
-import Prelude (Unit, bind, ($), show, map, (<>), pure)
+import Prelude (Unit, bind, ($), show, map, (<>), pure, discard)
 
 import Data.String (split, Pattern(..), replace, Replacement(..))
 import Data.Decimal (Decimal)
+import Data.Eq ((/=))
 import Data.Decimal (fromString) as Decimal
-import Data.Array ((!!))
+import Data.Array ((!!), filter)
 import Data.Either (Either(..), note)
 import Data.Maybe (Maybe(..))
 
@@ -21,6 +22,9 @@ import Node.FS.Sync (readTextFile)
 main :: Effect Unit
 main = do
   fileContents <- readInputFile
+  log "csv input"
+  log $ show $ parseCSV fileContents
+  log "parsed data"
   log $ show $ parseBankCSVFormat $ parseCSV fileContents
 
 
@@ -38,7 +42,7 @@ parseCSV s =
     parsedLines :: Array (Array String)
     parsedLines = map (\a -> split (Pattern ";") a) lines
   in
-    parsedLines
+    filter (\line -> line /= [""]) parsedLines
 
 
 type Entry = {
