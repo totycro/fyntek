@@ -7,3 +7,6 @@ watch:
 
 shell:
 	pulp psci
+
+foo:
+	pulp bar
