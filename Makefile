@@ -7,3 +7,4 @@ watch:
 
 shell:
 	pulp psci
+hello from py
